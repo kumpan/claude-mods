@@ -1,6 +1,6 @@
 {
   "name": "agent-progress",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A plain progress bar above the prompt for multi-step work, and a panel of subagents (/agents-panel) with model, context, estimated cost and time.",
   "types": "./types/index.d.ts",
   "license": "MIT"

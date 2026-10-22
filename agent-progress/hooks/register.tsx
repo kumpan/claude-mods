@@ -419,10 +419,13 @@ export const register: Register = on => {
       const width = Math.max(180, Math.min(1600, (e.props.bodyColumns || 100) * 8 - 120))
       return (
         <Box flexDirection="column">
-          <Box flexDirection="row" alignItems="center" gap={1}>
+          {/* The Svg's width is a guess from bodyColumns; space-between keeps the buttons at the band's right edge anyway. */}
+          <Box flexDirection="row" alignItems="center" justifyContent="space-between" gap={1}>
             <Svg source={bandSvg(width, title, f ? ratio(f) : null, right, color)} alt={`${title}: ${right}`} width={width} height={BAND_H} />
-            {agentsButton}
-            {dismiss}
+            <Box flexDirection="row" alignItems="center" gap={1}>
+              {agentsButton}
+              {dismiss}
+            </Box>
           </Box>
           {below}
         </Box>
