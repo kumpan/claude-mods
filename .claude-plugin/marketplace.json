@@ -1,0 +1,11 @@
+{
+  "name": "kumpan-mods",
+  "owner": { "name": "Kumpan" },
+  "plugins": [
+    {
+      "name": "ship-prompt",
+      "source": "./ship-prompt",
+      "description": "After each finished change, asks whether to push to main, open a PR, open a PR with auto-merge, or verify first. Stays quiet in repos with their own /ship flow."
+    }
+  ]
+}
