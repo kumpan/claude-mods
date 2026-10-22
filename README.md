@@ -25,7 +25,7 @@ At the Claude Code prompt (the same commands run from a shell as `claude plugin 
 | `/plugin uninstall <mod>@kumpan-mods` | Remove a mod. |
 | `/plugin marketplace remove kumpan-mods` | Remove the marketplace. Uninstall its mods first. |
 
-The repo is private: you need read access to `kumpan/claude-mods` and git set up for GitHub on your machine.
+The repo is public, so anyone can install: no GitHub account or sign-in needed, only git on the machine. Because of that, nothing client-specific or internal belongs in a mod here.
 
 Mods from other people come from their own marketplaces and sit side by side with these. Install what you want from each.
 
