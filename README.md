@@ -2,6 +2,17 @@
 
 A Claude Code plugin marketplace, `kumpan-mods`. Each mod is a plugin in its own folder, and you install only the ones you want: adding the marketplace installs nothing by itself.
 
+## Install
+
+At the Claude Code prompt:
+
+```
+/plugin marketplace add kumpan/claude-mods
+/plugin install ship-prompt@kumpan-mods
+```
+
+Then restart Claude Code. The repo is public: no GitHub account or sign-in needed.
+
 ## Mods
 
 | Mod | What it does |
@@ -25,7 +36,7 @@ At the Claude Code prompt (the same commands run from a shell as `claude plugin 
 | `/plugin uninstall <mod>@kumpan-mods` | Remove a mod. |
 | `/plugin marketplace remove kumpan-mods` | Remove the marketplace. Uninstall its mods first. |
 
-The repo is public, so anyone can install: no GitHub account or sign-in needed, only git on the machine. Because of that, nothing client-specific or internal belongs in a mod here.
+Anyone can install from this repo, so nothing client-specific or internal belongs in a mod here.
 
 Mods from other people come from their own marketplaces and sit side by side with these. Install what you want from each.
 
