@@ -5,6 +5,16 @@ const TOOL = 'mcp__agent-progress__progress'
 const band = { hasSurvey: false, isWorking: false, maxRows: 4, bodyColumns: 100, scroll: { offset: 0, bodyRows: 4 }, view: {} } as never
 const pane = { title: 'Agents', isFocused: false, bodyColumns: 60, placement: 'dock', scroll: { offset: 0, bodyRows: 30 }, view: {} } as never
 
+test('named steps fix the total and show the current one and what is left', async $ => {
+  await $.tool.call({ tool: TOOL, title: 'Steps', steps: ['one', 'two', 'three'], done: 1 } as never)
+  const ui = await $.ui.mount({ plugin: PLUGIN, surface: 'terminal', component: 'AbovePrompt', props: band })
+  expect(await ui.find({ type: 'Text', text: /1\/3/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /✻ two/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /○ three/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /✓ 1 done/ })).toBeDefined()
+  await ui.unmount()
+})
+
 test('the progress tool keeps counters per title and bounds its input', async $ => {
   expect(await $.tool.call({ tool: TOOL, title: 'Ship it', total: 4, done: 0 } as never)).toMatchObject({ result: 'ok: Ship it 0/4' })
   expect(await $.tool.call({ tool: TOOL, done: 9 } as never)).toMatchObject({ result: 'ok: Ship it 4/4' })

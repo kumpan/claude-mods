@@ -3,6 +3,7 @@ export type Flow = {
   total: number
   done: number
   isFinished: boolean
+  steps: string[]
 }
 
 export type AgentStatus = 'running' | 'done' | 'failed'
