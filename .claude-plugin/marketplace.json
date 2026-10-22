@@ -13,6 +13,11 @@
       "name": "handoff",
       "source": "./handoff",
       "description": "Replaces compaction with a structured handoff, then asks before Claude carries on working."
+    },
+    {
+      "name": "agent-progress",
+      "source": "./agent-progress",
+      "description": "A plain progress bar above the prompt for multi-step work, and a panel of subagents (/agents-panel) with model, context, estimated cost and time."
     }
   ]
 }
