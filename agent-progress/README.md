@@ -15,7 +15,7 @@ Based on [johnnyvizz/claude-kit's savvy-progress](https://github.com/JohnnyVizz/
 
 ## The tool it adds
 
-`mcp__agent-progress__progress` (`title`, `total`, `done`, `finished`). It is listed up front, so Claude sees it in every request (about 100 tokens) and calls it on work with three or more steps or several subagents. Only the main session can move the bar; a call from a subagent is ignored.
+`mcp__agent-progress__progress` (`title`, `total`, `done`, `finished`). It is listed up front, so Claude sees it in every request (about 100 tokens) and calls it on every request that edits files or runs commands, even small ones. Only the main session can move the bar; a call from a subagent is ignored.
 
 ## Good to know
 

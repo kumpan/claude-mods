@@ -225,8 +225,8 @@ export const register: Register = on => {
     await $.tool.register({
       name: 'progress',
       description:
-        'Show progress of multi-step work in a bar above the prompt. Call it when you start work with 3 or more distinct steps ' +
-        'or several subagents (title, total, done: 0), again as each step finishes (done), and once at the end with finished: true. ' +
+        'Show progress in a bar above the prompt. Call it at the start of EVERY request that edits files or runs commands, even small ones ' +
+        '(title, total, done: 0), again as each step finishes (done), and once at the end with finished: true. Skip it only for pure Q&A. ' +
         'Fields left out keep their value; a new title starts a new bar. Main session only: a call from a subagent is ignored.',
       inputSchema: {
         type: 'object',
