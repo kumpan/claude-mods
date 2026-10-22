@@ -1,0 +1,1 @@
+{ "name": "handoff", "version": "0.1.0", "description": "Replaces compaction with a structured handoff, then asks before Claude carries on working.", "license": "MIT" }

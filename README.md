@@ -9,6 +9,7 @@ At the Claude Code prompt:
 ```
 /plugin marketplace add kumpan/claude-mods
 /plugin install ship-prompt@kumpan-mods
+/plugin install handoff@kumpan-mods
 ```
 
 Then restart Claude Code. The repo is public: no GitHub account or sign-in needed.
@@ -18,6 +19,7 @@ Then restart Claude Code. The repo is public: no GitHub account or sign-in neede
 | Mod | What it does |
 | --- | --- |
 | [ship-prompt](./ship-prompt) | When a change is finished, asks whether to push to main, open a PR, open a PR with auto-merge, or verify first. Stays quiet in repos with their own ship flow. |
+| [handoff](./handoff) | Replaces Claude Code's compaction summary with a structured handoff (goal, state, next step, decisions, what was ruled out), then asks before Claude carries on working. |
 
 Each mod's folder has a README with what it does and what to know before installing it.
 
