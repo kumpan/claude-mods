@@ -1,0 +1,1 @@
+{ "name": "prompt-upgrade", "version": "0.1.0", "description": "Asks a few quick questions, then rewrites your short prompt into a detailed one you can edit, copy or run with one click.", "types": "./types/index.d.ts", "license": "MIT" }

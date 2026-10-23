@@ -18,6 +18,7 @@ Then restart Claude Code. The repo is public: no GitHub account or sign-in neede
 | Mod | What it does |
 | --- | --- |
 | [handoff](./handoff) | Replaces Claude Code's compaction summary with a structured handoff (goal, state, next step, decisions, what was ruled out), then asks before Claude carries on working. |
+| [prompt-upgrade](./prompt-upgrade) | `/prompt-upgrade <prompt>` asks a few quick questions, then rewrites your short prompt into a detailed one you can edit, copy or run with one click. |
 
 Each mod's folder has a README with what it does and what to know before installing it.
 

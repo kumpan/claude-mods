@@ -8,6 +8,11 @@
       "name": "handoff",
       "source": "./handoff",
       "description": "Replaces compaction with a structured handoff, then asks before Claude carries on working."
+    },
+    {
+      "name": "prompt-upgrade",
+      "source": "./prompt-upgrade",
+      "description": "Asks a few quick questions, then rewrites your short prompt into a detailed one you can edit, copy or run."
     }
   ]
 }
