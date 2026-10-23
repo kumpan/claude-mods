@@ -8,9 +8,7 @@ At the Claude Code prompt:
 
 ```
 /plugin marketplace add kumpan/claude-mods
-/plugin install ship-prompt@kumpan-mods
 /plugin install handoff@kumpan-mods
-/plugin install agent-progress@kumpan-mods
 ```
 
 Then restart Claude Code. The repo is public: no GitHub account or sign-in needed.
@@ -19,9 +17,7 @@ Then restart Claude Code. The repo is public: no GitHub account or sign-in neede
 
 | Mod | What it does |
 | --- | --- |
-| [ship-prompt](./ship-prompt) | When a change is finished, asks whether to push to main, open a PR, open a PR with auto-merge, or verify first. Stays quiet in repos with their own ship flow. |
 | [handoff](./handoff) | Replaces Claude Code's compaction summary with a structured handoff (goal, state, next step, decisions, what was ruled out), then asks before Claude carries on working. |
-| [agent-progress](./agent-progress) | A plain progress bar above the prompt for multi-step work, and a panel of subagents with model, context, estimated cost and time. |
 
 Each mod's folder has a README with what it does and what to know before installing it.
 
@@ -32,7 +28,7 @@ At the Claude Code prompt (the same commands run from a shell as `claude plugin 
 | Command | What it does |
 | --- | --- |
 | `/plugin marketplace add kumpan/claude-mods` | Add this marketplace (once per machine). Installs no mods. |
-| `/plugin install <mod>@kumpan-mods` | Install one mod, e.g. `/plugin install ship-prompt@kumpan-mods`. Restart Claude Code after. |
+| `/plugin install <mod>@kumpan-mods` | Install one mod, e.g. `/plugin install handoff@kumpan-mods`. Restart Claude Code after. |
 | `/plugin` | Browse the marketplace and your installed plugins. |
 | `/plugin marketplace update kumpan-mods` | Fetch the latest version of the marketplace. |
 | `/plugin update <mod>@kumpan-mods` | Update an installed mod after the marketplace update. |
@@ -58,7 +54,7 @@ Clone the repo and add the clone as the marketplace instead of GitHub, so your e
 ```bash
 git clone https://github.com/kumpan/claude-mods.git ~/repos/claude-mods
 claude plugin marketplace add ~/repos/claude-mods
-claude plugin install ship-prompt@kumpan-mods
+claude plugin install handoff@kumpan-mods
 ```
 
 If you had already added the GitHub marketplace, remove it first (`claude plugin marketplace remove kumpan-mods`), since both use the name `kumpan-mods`. After an edit, raise the version and run `claude plugin update <mod>@kumpan-mods`, then restart.
