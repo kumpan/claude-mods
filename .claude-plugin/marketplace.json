@@ -13,6 +13,11 @@
       "name": "auto-model",
       "source": "./auto-model",
       "description": "Reads each prompt and picks the model and effort: Haiku for easy, Sonnet for UI and everyday work, Opus for hard."
+      },
+      {
+      "name": "prompt-upgrade",
+      "source": "./prompt-upgrade",
+      "description": "Asks a few quick questions, then rewrites your short prompt into a detailed one you can edit, copy or run."
     }
   ]
 }
