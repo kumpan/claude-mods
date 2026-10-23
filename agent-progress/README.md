@@ -10,17 +10,17 @@ Based on [johnnyvizz/claude-kit's savvy-progress](https://github.com/JohnnyVizz/
 
 ## What it shows
 
-- **Progress bar** above the prompt: Claude's mark, the task's title, a thin bar, `done/total` and percent. It appears when Claude reports progress, or while subagents run (then just `N running`). `✕` hides it until the next report. A bar still unfinished when the turn ends is cleared.
+- **Progress bar** above the prompt: Claude's mark, the task's title, a thin bar, `done/total` and percent. Under it the step list stays on screen: finished steps folded into one line, the current step in bold, the rest dimmed. It appears when Claude reports progress, or while subagents run (then just `N running`). `✕` hides it until the next report. A bar still unfinished when the turn ends is cleared.
 - **Agents panel** (`/agents-panel` toggles it, `/agents-panel open` opens it; the `Agents N` button on the bar does the same): running and finished subagents, each with type, model and effort, context fill, tokens, estimated cost and time. Finished ones fold away under their heading.
 
 ## The tool it adds
 
-`mcp__agent-progress__progress` (`title`, `total`, `done`, `finished`). It is listed up front, so Claude sees it in every request (about 100 tokens) and calls it on every request that edits files or runs commands, even small ones. Only the main session can move the bar; a call from a subagent is ignored.
+`mcp__agent-progress__progress` (`title`, `steps`, `done`, `finished`; `total` when steps are not named). It is listed up front, so Claude sees it in every request (about 100 tokens) and calls it on every request that edits files or runs commands, even small ones. Only the main session can move the bar; a call from a subagent is ignored.
 
 ## Good to know
 
 - Cost is an estimate from token counts and list prices in `hooks/register.tsx` (`PRICES`), not a bill. Cache writes are priced at the 1-hour rate.
-- Left out from savvy-progress: planned tasks, per-worker step reports, a compact panel mode, auto-opening the panel.
+- Left out from savvy-progress: per-worker step reports, a compact panel mode, auto-opening the panel.
 
 ## Files
 

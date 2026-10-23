@@ -26,7 +26,9 @@ const CSS = `<style>
 @media (prefers-color-scheme: dark){.t{fill:#FAF9F5}.m{fill:#A3A19A}.k{fill:#3D3D3A}.ln{stroke:#3D3D3A}}
 </style>`
 
-type ProgressInput = { title?: string; total?: number; done?: number; finished?: boolean }
+type ProgressInput = { title?: string; total?: number; done?: number; finished?: boolean; steps?: string[] }
+
+const MAX_STEP = 80
 
 const clip = (s: string, max: number): string => (s.length > max ? s.slice(0, max - 1) + '…' : s)
 
@@ -35,14 +37,17 @@ const isNewFlow = (prev: Flow | null, input: ProgressInput): boolean =>
 
 const merge = (prev: Flow | null, input: ProgressInput): Flow => {
   // A new title is a new bar: counters never carry over from an earlier one.
-  const base: Flow = !prev || isNewFlow(prev, input) ? { title: 'Progress', total: 0, done: 0, isFinished: false } : prev
-  const total = Math.min(MAX_TOTAL, Math.max(0, Math.round(input.total ?? base.total)))
+  const base: Flow = !prev || isNewFlow(prev, input) ? { title: 'Progress', total: 0, done: 0, isFinished: false, steps: [] } : prev
+  const steps = Array.isArray(input.steps) ? input.steps.slice(0, MAX_TOTAL).map(s => clip(String(s).trim(), MAX_STEP)) : base.steps
+  // Named steps fix the total; without them the model's number stands.
+  const total = steps.length ? steps.length : Math.min(MAX_TOTAL, Math.max(0, Math.round(input.total ?? base.total)))
   const done = Math.min(total || Infinity, Math.max(0, Math.round(input.done ?? base.done)))
   return {
     title: clip(input.title?.trim() || base.title, MAX_TITLE),
     total,
     done: input.finished ? total : done,
     isFinished: input.finished === true,
+    steps,
   }
 }
 
@@ -194,6 +199,25 @@ const agentSvg = (W: number, a: AgentRun, at: number): string => {
   )
 }
 
+// The checklist under the bar: finished steps fold into one line, the current one is bold, the rest follow.
+// A window of `maxRows` lines keeps the current step in view whatever the plan's length.
+type StepRow = { text: string; color?: string; dim?: boolean; bold?: boolean }
+const stepList = (f: Flow, maxRows = 6): StepRow[] => {
+  if (f.steps.length === 0) return []
+  const cur = Math.min(f.done, f.steps.length - 1)
+  const rows = Math.max(3, Math.min(maxRows + 4, 10))
+  const head: StepRow[] = f.done > 0 ? [{ text: `✓ ${f.done} done`, color: OLIVE }] : []
+  const room = rows - head.length
+  const rest = f.steps.slice(cur)
+  const shown = rest.slice(0, rest.length > room ? room - 1 : room)
+  const more: StepRow[] = rest.length > shown.length ? [{ text: `… ${rest.length - shown.length} more`, dim: true }] : []
+  return [
+    ...head,
+    ...shown.map((t, i): StepRow => (i === 0 ? { text: `✻ ${t}`, color: CLAY, bold: true } : { text: `○ ${t}`, dim: true })),
+    ...more,
+  ]
+}
+
 // Terminal bar.
 const bar = (r: number, width: number): string => {
   const filled = Math.round(width * r)
@@ -226,13 +250,15 @@ export const register: Register = on => {
       name: 'progress',
       description:
         'Show progress in a bar above the prompt. Call it at the start of EVERY request that edits files or runs commands, even small ones ' +
-        '(title, total, done: 0), again as each step finishes (done; send it in the same message as your task-list update, so the two never disagree), and ALWAYS once more at the very end of the work with finished: true, before your final message (a bar left unfinished is cleared when the turn ends). Skip it only for pure Q&A. ' +
+        '(title, steps: the ordered step names, done: 0), again as each step finishes (done: how many are finished; the next one is shown as in progress; send it in the same message as your task-list update, so the two never disagree), ' +
+        'and ALWAYS once more at the very end of the work with finished: true, before your final message (a bar left unfinished is cleared when the turn ends). The steps stay on screen under the bar. Skip it only for pure Q&A. ' +
         'Fields left out keep their value; a new title starts a new bar. Main session only: a call from a subagent is ignored.',
       inputSchema: {
         type: 'object',
         properties: {
           title: { type: 'string', description: 'The overall task, a few words.' },
-          total: { type: 'integer', minimum: 0, description: 'Number of steps planned.' },
+          steps: { type: 'array', items: { type: 'string' }, description: 'Every step in order, short imperative phrases. Replaces the list; send it when the plan changes.' },
+          total: { type: 'integer', minimum: 0, description: 'Number of steps planned, when steps are not named.' },
           done: { type: 'integer', minimum: 0, description: 'Number of steps finished.' },
           finished: { type: 'boolean', description: 'True once the work is complete.' },
         },
@@ -413,6 +439,16 @@ export const register: Register = on => {
     const color = f?.isFinished ? OLIVE : CLAY
     const title = f?.title ?? 'Subagents'
     const right = f ? `${count(f)}  ${Math.round(ratio(f) * 100)}%` : `${runningCount} running`
+    const stepRows = f && !f.isFinished ? stepList(f, e.props.maxRows) : []
+    const stepsView = stepRows.length > 0 && (
+      <Box flexDirection="column" marginLeft={2}>
+        {stepRows.map((r, i) => (
+          <Text key={i} wrap="truncate-end" color={r.color} dimColor={r.dim} bold={r.bold}>
+            {r.text}
+          </Text>
+        ))}
+      </Box>
+    )
     const agentsButton = list.length > 0 && <Button key="agents" label={`Agents ${list.length}`} plain onPress={() => void togglePane($)} />
     const dismiss = f && <Button key="dismiss" label="✕" plain role="dismiss" onPress={() => update($, flow, () => null)} />
 
@@ -430,6 +466,7 @@ export const register: Register = on => {
               {dismiss}
             </Box>
           </Box>
+          {stepsView}
           {below}
         </Box>
       )
@@ -450,6 +487,7 @@ export const register: Register = on => {
           {agentsButton}
           {dismiss}
         </Box>
+        {stepsView}
         {below}
       </Box>
     )
