@@ -10,7 +10,7 @@ Based on [johnnyvizz/claude-kit's savvy-progress](https://github.com/JohnnyVizz/
 
 ## What it shows
 
-- **Progress bar** above the prompt: Claude's mark, the task's title, a thin bar, `done/total` and percent. Under it the step list stays on screen: finished steps folded into one line, the current step in bold, the rest dimmed. It appears when Claude reports progress, or while subagents run (then just `N running`). `✕` hides it until the next report.
+- **Progress bar** above the prompt: Claude's mark, the task's title, a thin bar, `done/total` and percent. Under it the step list stays on screen: finished steps folded into one line, the current step in bold, the rest dimmed. It appears when Claude reports progress, or while subagents run (then just `N running`). `✕` hides it until the next report. A bar still unfinished when the turn ends is cleared.
 - **Agents panel** (`/agents-panel` toggles it, `/agents-panel open` opens it; the `Agents N` button on the bar does the same): running and finished subagents, each with type, model and effort, context fill, tokens, estimated cost and time. Finished ones fold away under their heading.
 
 ## The tool it adds

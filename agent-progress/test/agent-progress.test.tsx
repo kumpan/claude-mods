@@ -24,6 +24,13 @@ test('the progress tool keeps counters per title and bounds its input', async $ 
   expect(hijack.result).toMatch(/^ignored/)
 })
 
+test('a turn that ends with the bar unfinished clears it', async ($, on) => {
+  on('turn.complete', () => ({ text: 'ok' }) as never)
+  await $.tool.call({ tool: TOOL, title: 'Stuck', total: 3, done: 0 } as never)
+  await $.turn.complete({ reason: 'answer', answer: 'done' } as never)
+  expect(await $.tool.call({ tool: TOOL, done: 1 } as never)).toMatchObject({ result: 'ok: Progress 1' })
+})
+
 for (const surface of ['terminal', 'desktop'] as const) {
   test(`${surface}: band shows once progress is reported, pane draws empty`, async ($, on) => {
     // Stands for the engine's own drawing beneath the plugin.

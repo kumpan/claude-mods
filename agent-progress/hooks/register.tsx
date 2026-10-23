@@ -250,8 +250,8 @@ export const register: Register = on => {
       name: 'progress',
       description:
         'Show progress in a bar above the prompt. Call it at the start of EVERY request that edits files or runs commands, even small ones ' +
-        '(title, steps: the ordered step names, done: 0), again as each step finishes (done: how many are finished; the next one is shown as in progress), ' +
-        'and once at the end with finished: true. The steps stay on screen under the bar. Skip it only for pure Q&A. ' +
+        '(title, steps: the ordered step names, done: 0), again as each step finishes (done: how many are finished; the next one is shown as in progress; send it in the same message as your task-list update, so the two never disagree), ' +
+        'and ALWAYS once more at the very end of the work with finished: true, before your final message (a bar left unfinished is cleared when the turn ends). The steps stay on screen under the bar. Skip it only for pure Q&A. ' +
         'Fields left out keep their value; a new title starts a new bar. Main session only: a call from a subagent is ignored.',
       inputSchema: {
         type: 'object',
@@ -361,6 +361,9 @@ export const register: Register = on => {
         }),
       )
       await update($, now, () => at)
+    } else {
+      // The turn is over: a bar the model never closed would sit at its last count for good.
+      await update($, flow, f => (f && !f.isFinished ? null : f))
     }
     return next(e)
   })
