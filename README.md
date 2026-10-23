@@ -18,6 +18,7 @@ Then restart Claude Code. The repo is public: no GitHub account or sign-in neede
 | Mod | What it does |
 | --- | --- |
 | [handoff](./handoff) | Replaces Claude Code's compaction summary with a structured handoff (goal, state, next step, decisions, what was ruled out), then asks before Claude carries on working. |
+| [auto-model](./auto-model) | Reads each prompt and picks the model and effort for it: Haiku (low) for easy tasks, Sonnet (medium) for UI and everyday work, Opus (high) for hard ones. |
 
 Each mod's folder has a README with what it does and what to know before installing it.
 
